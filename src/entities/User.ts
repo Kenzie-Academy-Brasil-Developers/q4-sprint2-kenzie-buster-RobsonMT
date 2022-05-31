@@ -1,13 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  JoinColumn,
-  ManyToMany,
-} from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import * as bcrypt from "bcrypt";
 import { Order } from "./Order";
 
@@ -27,12 +18,6 @@ export class User {
 
   @Column({ default: false })
   isAdm?: boolean;
-
-  @CreateDateColumn({ type: "timestamp" })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: "timestamp" })
-  updatedAt: Date;
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
