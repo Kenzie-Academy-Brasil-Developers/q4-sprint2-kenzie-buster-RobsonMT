@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export class initialCommit1653965207778 implements MigrationInterface {
-  name = "initialCommit1653965207778";
+export class initialCommit1654046692909 implements MigrationInterface {
+  name = "initialCommit1654046692909";
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -15,31 +15,19 @@ export class initialCommit1653965207778 implements MigrationInterface {
       `CREATE TABLE "dvds" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "duration" character varying NOT NULL, "stockId" uuid, CONSTRAINT "REL_d1e620c0f75aa0d8341f2c768a" UNIQUE ("stockId"), CONSTRAINT "PK_bcd090a9e4428d665c5ace6f433" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "orders" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "paid" boolean NOT NULL DEFAULT false, "total" double precision NOT NULL, "userId" uuid, CONSTRAINT "PK_710e2d4957aa5878dfe94e4ac2f" PRIMARY KEY ("id"))`
-    );
-    await queryRunner.query(
       `CREATE TABLE "users" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying(20) NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "isAdm" boolean NOT NULL DEFAULT false, CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
-      `CREATE TABLE "orders_dvds_dvds" ("ordersId" uuid NOT NULL, "dvdsId" uuid NOT NULL, CONSTRAINT "PK_bdcb939e23422d6e7a991a64415" PRIMARY KEY ("ordersId", "dvdsId"))`
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_ccc6d62bff473f5cda22e494d0" ON "orders_dvds_dvds" ("ordersId") `
-    );
-    await queryRunner.query(
-      `CREATE INDEX "IDX_1f7d31be3204c6db7ade159027" ON "orders_dvds_dvds" ("dvdsId") `
+      `CREATE TABLE "cart" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "paid" boolean NOT NULL DEFAULT false, "total" double precision NOT NULL, "userId" uuid, "dvdId" uuid, CONSTRAINT "REL_756f53ab9466eb52a52619ee01" UNIQUE ("userId"), CONSTRAINT "REL_9ed71a7c7e8e5e85c857bf7968" UNIQUE ("dvdId"), CONSTRAINT "PK_c524ec48751b9b5bcfbf6e59be7" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `ALTER TABLE "dvds" ADD CONSTRAINT "FK_d1e620c0f75aa0d8341f2c768ac" FOREIGN KEY ("stockId") REFERENCES "stock"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "orders" ADD CONSTRAINT "FK_151b79a83ba240b0cb31b2302d1" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
+      `ALTER TABLE "cart" ADD CONSTRAINT "FK_756f53ab9466eb52a52619ee019" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "orders_dvds_dvds" ADD CONSTRAINT "FK_ccc6d62bff473f5cda22e494d0d" FOREIGN KEY ("ordersId") REFERENCES "orders"("id") ON DELETE CASCADE ON UPDATE CASCADE`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "orders_dvds_dvds" ADD CONSTRAINT "FK_1f7d31be3204c6db7ade1590275" FOREIGN KEY ("dvdsId") REFERENCES "dvds"("id") ON DELETE CASCADE ON UPDATE CASCADE`
+      `ALTER TABLE "cart" ADD CONSTRAINT "FK_9ed71a7c7e8e5e85c857bf79682" FOREIGN KEY ("dvdId") REFERENCES "dvds"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`
     );
     await queryRunner.query(
       `
@@ -53,26 +41,16 @@ export class initialCommit1653965207778 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "orders_dvds_dvds" DROP CONSTRAINT "FK_1f7d31be3204c6db7ade1590275"`
+      `ALTER TABLE "cart" DROP CONSTRAINT "FK_9ed71a7c7e8e5e85c857bf79682"`
     );
     await queryRunner.query(
-      `ALTER TABLE "orders_dvds_dvds" DROP CONSTRAINT "FK_ccc6d62bff473f5cda22e494d0d"`
-    );
-    await queryRunner.query(
-      `ALTER TABLE "orders" DROP CONSTRAINT "FK_151b79a83ba240b0cb31b2302d1"`
+      `ALTER TABLE "cart" DROP CONSTRAINT "FK_756f53ab9466eb52a52619ee019"`
     );
     await queryRunner.query(
       `ALTER TABLE "dvds" DROP CONSTRAINT "FK_d1e620c0f75aa0d8341f2c768ac"`
     );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_1f7d31be3204c6db7ade159027"`
-    );
-    await queryRunner.query(
-      `DROP INDEX "public"."IDX_ccc6d62bff473f5cda22e494d0"`
-    );
-    await queryRunner.query(`DROP TABLE "orders_dvds_dvds"`);
+    await queryRunner.query(`DROP TABLE "cart"`);
     await queryRunner.query(`DROP TABLE "users"`);
-    await queryRunner.query(`DROP TABLE "orders"`);
     await queryRunner.query(`DROP TABLE "dvds"`);
     await queryRunner.query(`DROP TABLE "stock"`);
   }

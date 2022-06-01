@@ -4,7 +4,9 @@ import { ErrorHTTP } from "../errors";
 import { dvdRepository, stockRepository } from "../repositories";
 
 class DvdService {
-  registerDvdService = async ({ body }: Request) => {
+  registerDvdService = async ({
+    body,
+  }: Request): Promise<ErrorHTTP | Dvd[]> => {
     if (!body.dvds.length) {
       return new ErrorHTTP(400, "Dvds array can not be empty.");
     }
@@ -21,7 +23,7 @@ class DvdService {
       outputDvds.push(dvd);
     }
 
-    return { dvds: outputDvds };
+    return outputDvds;
   };
 
   getAllDvdsService = async ({ body }: Request): Promise<Dvd[]> => {

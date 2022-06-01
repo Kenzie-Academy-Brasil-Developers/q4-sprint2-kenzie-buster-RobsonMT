@@ -4,7 +4,7 @@ import { dvdService } from "../services";
 class DvdController {
   registerDvdController = async (req: Request, res: Response) => {
     const dvd = await dvdService.registerDvdService(req);
-    return res.status(201).json(dvd);
+    return res.status(201).json({ dvds: dvd });
   };
 
   getAllDvdsConstroller = async (req: Request, res: Response) => {

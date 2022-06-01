@@ -1,14 +1,17 @@
 import { Router } from "express";
-
-import { ErrorHTTP } from "../errors";
-import { validadeSchema } from "../middlewares";
+import { cartController } from "../controllers";
+import { getDvdByIdOr404, validadeSchema, validateToken } from "../middlewares";
 import { buyDvdSchema } from "../schemas";
 
 const route = Router();
 
-route.post("dvds/buy/:dvdId", validadeSchema(buyDvdSchema));
-route.get("/error", async (req, res) => {
-  throw new ErrorHTTP(500, "Debug error route"); ///
-});
+route.post(
+  "/dvds/buy/:dvdId",
+  validateToken,
+  getDvdByIdOr404,
+  validadeSchema(buyDvdSchema),
+  cartController.buyDvdController
+);
+route.get("/carts/pay", validateToken, cartController.payDvdController);
 
 export default route;

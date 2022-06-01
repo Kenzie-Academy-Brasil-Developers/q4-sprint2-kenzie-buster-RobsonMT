@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { userRepository } from "../repositories";
 import dotenv from "dotenv";
+import { ErrorHTTP } from "../errors";
 
 dotenv.config();
 
@@ -13,7 +14,7 @@ const validateAdminAuth = async (
     const user = await userRepository.findOneBy({ id: req.decoded.id });
 
     if (!user?.isAdm) {
-      return res.status(401).json({ error: "missing admin permision" });
+      throw new ErrorHTTP(401, "Missing admin permision");
     }
 
     next();

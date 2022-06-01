@@ -18,7 +18,7 @@ route.post(
   userController.loginController
 );
 route.get("/error", async (req, res) => {
-  throw new ErrorHTTP(500, "Debug error route"); ///
+  throw new ErrorHTTP(500, "Debug error route");
 });
 
 export default route;

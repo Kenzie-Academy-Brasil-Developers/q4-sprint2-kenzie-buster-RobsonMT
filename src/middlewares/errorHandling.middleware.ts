@@ -9,11 +9,11 @@ export default function (
 ) {
   if (error instanceof ErrorHTTP) {
     return res.status(error.statusCode).json({
-      message: error.message,
+      error: error.message,
     });
   }
 
   console.log(error);
 
-  return res.status(500).json({ message: "Internal server error!" });
+  return res.status(500).send({ error: "Internal server error!" });
 }

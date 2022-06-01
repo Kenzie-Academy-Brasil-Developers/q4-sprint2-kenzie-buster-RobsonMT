@@ -1,12 +1,11 @@
 import { Router } from "express";
-import dvdController from "../controllers/dvd.controller";
-import { ErrorHTTP } from "../errors";
+import { dvdController } from "../controllers";
 import {
   validadeSchema,
   validateAdminAuth,
   validateToken,
 } from "../middlewares";
-import { registerDvdSchema } from "../schemas/dvd";
+import { registerDvdSchema } from "../schemas";
 
 const route = Router();
 
@@ -18,9 +17,5 @@ route.post(
   dvdController.registerDvdController
 );
 route.get("/dvds", dvdController.getAllDvdsConstroller);
-route.post("dvds/buy/:dvdId");
-route.get("/error", async (req, res) => {
-  throw new ErrorHTTP(500, "Debug error route"); ///
-});
 
 export default route;

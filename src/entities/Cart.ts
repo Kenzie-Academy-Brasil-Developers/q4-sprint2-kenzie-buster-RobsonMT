@@ -2,8 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  ManyToMany,
-  JoinTable,
   ManyToOne,
   OneToOne,
   JoinColumn,
@@ -22,11 +20,11 @@ export class Cart {
   @Column({ type: "float" })
   total: number;
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, (user) => user.cart)
   @JoinColumn()
   user: User;
 
-  @OneToOne(() => Dvd)
+  @ManyToOne(() => Dvd)
   @JoinColumn()
   dvd: Dvd;
 }
