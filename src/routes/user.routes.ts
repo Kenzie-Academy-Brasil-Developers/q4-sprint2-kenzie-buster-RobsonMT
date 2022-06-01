@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { userController } from "../controllers";
+import { ErrorHTTP } from "../errors";
 import { validadeSchema, validateCreateAdminPermission } from "../middlewares";
 import { createUserSchema, loginUserSchema } from "../schemas";
 
@@ -16,5 +17,8 @@ route.post(
   validadeSchema(loginUserSchema),
   userController.loginController
 );
+route.get("/error", async (req, res) => {
+  throw new ErrorHTTP(500, "Debug error route"); ///
+});
 
 export default route;

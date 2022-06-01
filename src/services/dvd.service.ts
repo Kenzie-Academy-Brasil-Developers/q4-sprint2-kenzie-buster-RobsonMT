@@ -1,9 +1,14 @@
 import { Request } from "express";
 import { Dvd } from "../entities";
+import { ErrorHTTP } from "../errors";
 import { dvdRepository, stockRepository } from "../repositories";
 
 class DvdService {
   registerDvdService = async ({ body }: Request) => {
+    if (!body.dvds.length) {
+      return new ErrorHTTP(400, "Dvds array can not be empty.");
+    }
+
     let outputDvds: Dvd[] = [];
 
     for (let item of body.dvds) {
@@ -19,8 +24,8 @@ class DvdService {
     return { dvds: outputDvds };
   };
 
-  getAllDvdsService = async ({ body }: Request) => {
-    const dvds = await dvdRepository.findAll();
+  getAllDvdsService = async ({ body }: Request): Promise<Dvd[]> => {
+    const dvds: Dvd[] = await dvdRepository.findAll();
     return dvds;
   };
 }
