@@ -12,7 +12,7 @@ const validateAdminAuth = async (
   if (req.decoded) {
     const user = await userRepository.findOneBy({ id: req.decoded.id });
 
-    if (!user?.isAdm && req.body.isAdm === true) {
+    if (!user?.isAdm) {
       return res.status(401).json({ error: "missing admin permision" });
     }
 

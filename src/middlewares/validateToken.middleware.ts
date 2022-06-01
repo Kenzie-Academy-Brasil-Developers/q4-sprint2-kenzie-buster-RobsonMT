@@ -14,7 +14,12 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
 
   jwt.verify(token, process.env.SECRET_KEY as string, (error, decoded) => {
     if (error) {
-      return res.status(401).json({ error: "Invalid token." });
+      return res.status(401).json({
+        error: {
+          name: "JsonWebTokenError",
+          message: "jwt malformed",
+        },
+      });
     }
 
     req.decoded = decoded as User;
