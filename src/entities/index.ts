@@ -1,6 +1,6 @@
 import { User } from "./User";
-import { Order } from "./Order";
+import { Cart } from "./Cart";
 import { Stock } from "./Stock";
 import { Dvd } from "./Dvd";
 
-export { User, Order, Stock, Dvd };
+export { User, Cart, Stock, Dvd };

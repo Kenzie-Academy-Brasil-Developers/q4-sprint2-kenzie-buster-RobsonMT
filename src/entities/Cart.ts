@@ -5,12 +5,14 @@ import {
   ManyToMany,
   JoinTable,
   ManyToOne,
+  OneToOne,
+  JoinColumn,
 } from "typeorm";
 import { Dvd } from "./Dvd";
 import { User } from "./User";
 
-@Entity("orders")
-export class Order {
+@Entity("cart")
+export class Cart {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -20,10 +22,11 @@ export class Order {
   @Column({ type: "float" })
   total: number;
 
-  @ManyToOne(() => User, (user) => user.orders)
+  @OneToOne(() => User)
+  @JoinColumn()
   user: User;
 
-  @ManyToMany(() => Dvd)
-  @JoinTable()
-  dvds: Dvd[];
+  @OneToOne(() => Dvd)
+  @JoinColumn()
+  dvd: Dvd;
 }

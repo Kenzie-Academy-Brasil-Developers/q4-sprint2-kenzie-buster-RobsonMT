@@ -1,6 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import * as bcrypt from "bcrypt";
-import { Order } from "./Order";
 
 @Entity("users")
 export class User {
@@ -18,9 +17,6 @@ export class User {
 
   @Column({ default: false })
   isAdm?: boolean;
-
-  @OneToMany(() => Order, (order) => order.user)
-  orders: Order[];
 
   comparePwd = async (recievedPwd: string): Promise<boolean> => {
     return await bcrypt.compare(recievedPwd, this.password);
