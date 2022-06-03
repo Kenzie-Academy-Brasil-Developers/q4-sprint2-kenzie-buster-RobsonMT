@@ -9,7 +9,7 @@ class CartController {
 
   payDvdController = async (req: Request, res: Response) => {
     const cart = await cartService.payDvdService(req);
-    return res.status(200).json(cart);
+    return res.status(200).json({ cart: [cart] });
   };
 }
 

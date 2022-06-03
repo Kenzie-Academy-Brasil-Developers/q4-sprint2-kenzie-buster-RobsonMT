@@ -12,6 +12,6 @@ route.post(
   validadeSchema(buyDvdSchema),
   cartController.buyDvdController
 );
-route.get("/carts/pay", validateToken, cartController.payDvdController);
+route.put("/carts/pay", validateToken, cartController.payDvdController);
 
 export default route;

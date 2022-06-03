@@ -28,7 +28,7 @@ class cartService {
       return cart;
     } catch (err: any) {
       if (err instanceof Error) {
-        throw new ErrorHTTP(409, "Cart alrealdy exists.");
+        throw new ErrorHTTP(409, "Dvd alrealdy exists in cart.");
       }
     }
   };

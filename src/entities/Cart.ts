@@ -25,6 +25,6 @@ export class Cart {
   user: User;
 
   @ManyToOne(() => Dvd)
-  @JoinColumn()
+  @JoinColumn([{ name: "dvd_id", referencedColumnName: "id" }])
   dvd: Dvd;
 }
